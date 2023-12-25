@@ -1,0 +1,81 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class PhpTravel {
+
+    public static void main(String[] args) {
+        
+        // Create a new instance of the Edge driver
+        EdgeDriver driver = new EdgeDriver();
+
+        // Navigate to the phptravels.com demo page
+        driver.get("https://phptravels.com/demo/");
+
+        // Define a WebDriverWait
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+
+        // Fill in the form details
+        fillForm(driver, wait);
+
+        // Add the logic for sum verification
+        verifySum(driver, wait);
+
+        // Submit the form
+        submitForm(driver, wait);
+
+	// Take a screenshot
+        takeScreenshot(driver);
+
+        // Verify the form is submitted successfully
+        verifySubmission(driver, wait);
+
+
+        // Close the browser
+        driver.quit();
+    }
+
+    private static void fillForm(WebDriver driver, WebDriverWait wait) {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("fN"))).sendKeys("Arpita");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("lN"))).sendKeys("Kembhavi");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("Email"))).sendKeys("arpitakem@gmail.com");
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("phone"))).sendKeys("1234567890");
+    }
+
+    private static void verifySum(WebDriver driver, WebDriverWait wait) {
+        int num1 = Integer.parseInt(wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("numb1"))).getText());
+        int num2 = Integer.parseInt(wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("numb2"))).getText());
+        int sumResult = num1 + num2;
+        WebElement sumField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("sum")));
+        sumField.sendKeys(String.valueOf(sumResult));
+    }
+
+    private static void submitForm(WebDriver driver, WebDriverWait wait) {
+        WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//input[@id="demo"]")));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(submitButton).click().perform();
+    }
+
+    private static void verifySubmission(WebDriver driver, WebDriverWait wait) {
+        WebElement successMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("alert-success")));
+        assert successMessage.getText().contains("Thank You");
+    }
+
+    private static void takeScreenshot(WebDriver driver) {
+       TakesScreenshot screenshot (TakesScreenshot)driver;
+       File srcFile = screenshot.getScreenshotAs(OutputType.FILE); 
+       File destFile = new File( pathname "screenshots/testScreenshot.png");
+       try {
+           FileUtils.copyFile(srcFile, destFile);
+       } catch (IOException e)
+           e.printStackTrace();
+    }
+   
+  }
+
+}
+
